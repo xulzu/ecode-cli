@@ -1,0 +1,32 @@
+{
+	"name": "ecode-cli",
+	"version": "1.0.0",
+	"description": "一个使用命令行辅助工作的cli，其中使用命令行包含创建工作空间，打开项目，拉取文件到工作空间等基础功能",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bin": {
+		"ecode": "src/index.js"
+	},
+	"dependencies": {
+		"@types/node": "^16.4.13",
+		"chalk": "^4.1.1",
+		"commander": "^8.1.0",
+		"g": "^2.0.1",
+		"inquirer": "^8.1.2"
+	},
+	"workspaces": {
+		"defualt": "/Users/xufujun/Desktop/ecode_workspace/",
+		"all": [
+			"/Users/xufujun/Desktop/ecode_workspace/"
+		]
+	},
+	"remotes": {
+		"html": "https://gitee.com/xulzu/html-template",
+		"tianlu": "ssh://git@git.sankuai.com/x/qcs.fe.block-tianlu.git"
+	}
+}
