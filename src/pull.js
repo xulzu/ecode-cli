@@ -2,27 +2,26 @@ const { execSync, exec } = require('child_process');
 const package = require('../package.json')
 const path = require('path')
 const chalk = require('chalk')
-const inquirer = require('inquirer');
+const { AutoComplete } = require('enquirer');
 const fs = require('fs')
 const ls = require('./ls')
-const workspace = package.workspaces.defualt
+const workspace = package.ecode_workspaces.defualt
 function pull(templateName, rename) {
 	if (!templateName) {
-		inquirer.prompt([
-			{
-				type: 'list',
-				choices: Object.entries(package.remotes).map(([name, value]) => ({
-					name: name + ' ' + value, value: { name, value }
-				})),
-				name: 'value',
-				message: '选择要下载的模板'
-			}
-		]).then((res) => {
-			const { name, value } = res.value
-			const DirSeen = fs.readdirSync(workspace)
-			let fileName = DirSeen.includes(name) ? (name + Date.now()) : name
-			pullTemplate(value, fileName)
-		})
+		const prompt = new AutoComplete({
+			name: 'value',
+			message: '选择要下载的模板',
+			limit: 10,
+			choices: Object.keys(package.remotes)
+		});
+		prompt.run()
+			.then((name) => {
+				const url = package.remotes[name]
+				const DirSeen = fs.readdirSync(workspace)
+				let fileName = DirSeen.includes(name) ? (name + Date.now()) : name
+				pullTemplate(url, fileName)
+			})
+			.catch(console.error);
 	} else if (/^https:\/\/|git@.*/.test(templateName)) {
 		pullTemplate(templateName, rename)
 	} else {

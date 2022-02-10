@@ -2,8 +2,8 @@ const { execSync, exec } = require('child_process');
 const package = require('../package.json')
 const path = require('path')
 const chalk = require('chalk')
-const inquirer = require('inquirer');
-const fs = require('fs')
+const { AutoComplete } = require('enquirer');
+
 function open(projectName) {
 	if (projectName) {
 		openOne(projectName)
@@ -12,7 +12,7 @@ function open(projectName) {
 	}
 }
 function openOne(projectName) {
-	const workspace = package.workspaces.defualt
+	const workspace = package.ecode_workspaces.defualt
 	exec(`open ${path.join(workspace, projectName)} -a vscode`, function (error, stout, stderr) {
 		if (error) {
 			console.log(chalk.red(stderr));
@@ -20,17 +20,20 @@ function openOne(projectName) {
 	})
 }
 function openSelected() {
-	const workspace = package.workspaces.defualt
+	const workspace = package.ecode_workspaces.defualt
 	const allProject = execSync(`ls ${workspace}`).toString().split('\n').filter(item => !!item)
-	inquirer.prompt([{
-		type: 'list',
-		choices: allProject || [],
-		pageSize: 20,
-		name: 'value',
 
+	const prompt = new AutoComplete({
+		name: 'value',
 		message: '选择要打开的项目',
-	}]).then(({ value }) => {
-		openOne(value)
-	})
+		limit: 10,
+		choices: allProject || []
+	});
+
+	prompt.run()
+		.then((value) =>{
+			openOne(value)
+		})
+		.catch(console.error);
 }
 module.exports = open

@@ -2,7 +2,8 @@ const { execSync, exec } = require('child_process');
 const package = require('../package.json')
 const path = require('path')
 const chalk = require('chalk')
-const inquirer = require('inquirer');
+const { AutoComplete } = require('enquirer');
+
 function deleteProject(projectName) {
 	if (projectName) {
 		deleteItem(projectName)
@@ -11,7 +12,7 @@ function deleteProject(projectName) {
 	}
 }
 function deleteItem(projectName) {
-	const workspace = package.workspaces.defualt
+	const workspace = package.ecode_workspaces.defualt
 	exec(`rm -rf ${path.join(workspace, projectName)} `, function (error, stout, stderr) {
 		if (error) {
 			console.log(chalk.red(stderr));
@@ -21,17 +22,19 @@ function deleteItem(projectName) {
 	})
 }
 function openSelected() {
-	const workspace = package.workspaces.defualt
+	const workspace = package.ecode_workspaces.defualt
 	const allProject = execSync(`ls ${workspace}`).toString().split('\n').filter(item => !!item)
-	inquirer.prompt([{
-		type: 'list',
-		choices: allProject || [],
-		pageSize: 20,
+	const prompt = new AutoComplete({
 		name: 'value',
-
 		message: '选择要删除的项目',
-	}]).then(({ value }) => {
-		deleteItem(value)
-	})
+		limit: 10,
+		choices: allProject || []
+	});
+
+	prompt.run()
+		.then((value) => {
+			deleteItem(value)
+		})
+		.catch(console.error);
 }
 module.exports = deleteProject

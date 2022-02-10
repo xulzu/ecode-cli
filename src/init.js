@@ -10,10 +10,10 @@ function init(workspace) {
 		if (error) {
 			console.log(chalk.red(`在${workspace}下创建目录失败，请更换目录重试`))
 		} else {
-			if (!package.workspaces.all.includes(workspace)) {
+			if (!package.ecode_workspaces.all.includes(workspace)) {
 				console.log(chalk.green(`成功在${workspace}下创建工作空间2`))
-				package.workspaces.all.push(workspace)
-				if (!package.workspaces.defualt) package.workspaces.defualt = workspace
+				package.ecode_workspaces.all.push(workspace)
+				if (!package.ecode_workspaces.defualt) package.ecode_workspaces.defualt = workspace
 				fs.writeFile(path.join(path.resolve(__dirname, '..'), 'package.json'), JSON.stringify(package), error => {
 				})
 			} else {

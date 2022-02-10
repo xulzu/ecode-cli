@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const package = require('../package.json')
 const chalk = require('chalk')
 function ls(options) {
-	const workspace = package.workspaces.defualt
+	const workspace = package.ecode_workspaces.defualt
 	// 展示仓库中的远程地址
 	if (options && options.r) {
 		for (let [key, value] of Object.entries(package.remotes)) {

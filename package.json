@@ -16,10 +16,10 @@
 		"@types/node": "^16.4.13",
 		"chalk": "^4.1.1",
 		"commander": "^8.1.0",
-		"g": "^2.0.1",
-		"inquirer": "^8.1.2"
+		"enquirer": "^2.3.6",
+		"g": "^2.0.1"
 	},
-	"workspaces": {
+	"ecode_workspaces": {
 		"defualt": "/Users/xufujun/Desktop/ecode_workspace/",
 		"all": [
 			"/Users/xufujun/Desktop/ecode_workspace/"
