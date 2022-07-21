@@ -26,7 +26,7 @@ function openSelected() {
 	const prompt = new AutoComplete({
 		name: 'value',
 		message: '选择要打开的项目',
-		limit: 10,
+		limit: 20,
 		choices: allProject || []
 	});
 
